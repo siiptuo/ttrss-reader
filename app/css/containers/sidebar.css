@@ -17,7 +17,7 @@
 		background: white;
 		position: relative;
 		height: 100%;
-		overflow-y: scroll;
+		overflow-y: auto;
 
 		@mixin scrollbars 3px, #d2d2d2, none;
 	}
