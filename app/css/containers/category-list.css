@@ -4,11 +4,6 @@
 	min-height: 100%;
 	padding: 0 0 1em;
 
-	i {
-		color: #bbb;
-		vertical-align: middle;
-	}
-
 	a,
 	.placeholder {
 		display: block;
@@ -49,6 +44,18 @@
 			top: .8em;
 			right: 1.5625em;
 		}
+	}
+}
+
+.icon {
+	display: inline-block;
+	width: 1.5em;
+	margin-right: .25em;
+	vertical-align: middle;
+	text-align: center;
+
+	i {
+		color: #bbb;
 	}
 }
 

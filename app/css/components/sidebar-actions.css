@@ -12,6 +12,13 @@
 	line-height: 3em;
 	text-align: right;
 
+	i {
+		display: inline-block;
+		margin-right: .25em;
+		width: 1.5em;
+		text-align: center;
+	}
+
 	a {
 		display: inline-block;
 		margin-left: 1.5em;

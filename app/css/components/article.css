@@ -38,3 +38,12 @@ article {
 		text-decoration: underline;
 	}
 }
+
+.icon {
+	margin-right: .25em;
+	vertical-align: middle;
+
+	img {
+		height: 12px;
+	}
+}

@@ -7,6 +7,7 @@ import settings from 'reducers/settings';
 import logs from 'reducers/log';
 import ui from 'reducers/ui';
 import subscription from 'reducers/subscription';
+import config from 'reducers/config';
 
 
 module.exports = combineReducers({
@@ -18,5 +19,6 @@ module.exports = combineReducers({
 	settings,
 	logs,
 	ui,
-	subscription
+	subscription,
+	config
 });

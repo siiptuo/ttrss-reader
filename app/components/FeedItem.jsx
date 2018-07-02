@@ -50,7 +50,11 @@ class FeedItem extends React.Component {
 		return (
 			<li>
 				<a onClick={ this.handleClick } className={ clsLink }>
-					<Icon type="rss-squared" />
+					<span className={styles.icon}>
+						{feed.has_icon ?
+							<img src={this.props.iconBaseUrl + feed.id + '.ico'} style={{height: '16px'}} /> :
+							<Icon type="rss-squared" />}
+					</span>
 					<span className={ styles.name }>{ feed.title }</span>
 					{ this.renderCount() }
 				</a>
@@ -59,4 +63,10 @@ class FeedItem extends React.Component {
 	}
 }
 
-export default connect()( FeedItem );
+function mapStateToProps( state, ownProps ) {
+	return {
+		iconBaseUrl: localStorage.getItem('ttrssBaseUrl') + '/' + state.config.icons_url + '/'
+	};
+}
+
+export default connect( mapStateToProps )( FeedItem );

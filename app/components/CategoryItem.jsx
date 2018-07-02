@@ -52,7 +52,9 @@ class CategoryItem extends Component {
 		return (
 			<li className={ clsItem } key={ category.id }>
 				<a onClick={ this.handleClick }>
-					<Icon type={ iconType } />
+					<span className={ styles.icon }>
+						<Icon type={ iconType } />
+					</span>
 					<span className={ styles.name }>{ category.title }</span>
 					{ this.renderCount() }
 				</a>

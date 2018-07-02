@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { categoriesShape } from 'reducers/categories';
 import { getCategories } from 'actions/categories';
+import { getConfig } from 'actions/config';
 import CategoryItem from 'components/CategoryItem';
 import Icon from 'components/Icon';
 import styles from 'css/containers/category-list';
@@ -15,6 +16,7 @@ class CategoryList extends React.Component {
 
 	componentDidMount() {
 		this.props.dispatch( getCategories() );
+		this.props.dispatch( getConfig() );
 	}
 
 	renderSpinner() {

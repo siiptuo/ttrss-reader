@@ -110,13 +110,15 @@ class Article extends React.Component {
 	}
 
 	renderFeedTitle() {
-		const { isSingle, feed, article } = this.props;
+		const { isSingle, feed, article, articleFeed } = this.props;
 		let element;
 
 		if ( ! isSingle && ( feed.is_cat || 0 > feed.id ) ) {
 			element = (
 				<p className={ styles.articleMeta }>
-					<Icon type="rss-squared" />
+					<span className={ styles.icon }>
+						{ articleFeed.has_icon ? <img src={this.props.iconBaseUrl + articleFeed.id + '.ico'} /> : <Icon type="rss-squared" /> }
+					</span>
 					{ article.feed_title }
 				</p>
 			);
@@ -211,9 +213,11 @@ class Article extends React.Component {
 	}
 }
 
-function mapStateToProps( state ) {
+function mapStateToProps( state, ownProps ) {
 	return {
-		feed: state.feeds.current
+		feed: state.feeds.current,
+		articleFeed: state.feeds.items.find(feed => feed.id === ownProps.article.feed_id),
+		iconBaseUrl: localStorage.getItem('ttrssBaseUrl') + '/' + state.config.icons_url + '/'
 	};
 }
 

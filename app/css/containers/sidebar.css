@@ -32,14 +32,6 @@
 		margin: 0;
 	}
 
-	i {
-		margin-right: .25em;
-
-		&::before {
-			width: 1.5em;
-		}
-	}
-
 	.placeholder {
 		font-style: italic;
 	}
