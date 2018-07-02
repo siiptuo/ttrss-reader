@@ -13,5 +13,5 @@ export function getCount( num ) {
  * @return {string}
  */
 export function getArticleDate( date ) {
-	return format( date * 1000, 'D MMMM YYYY @ hh:mm' );
+	return format( date * 1000, 'D MMMM YYYY @ HH:mm' );
 }
