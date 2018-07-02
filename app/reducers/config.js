@@ -1,4 +1,3 @@
-import { find, groupBy, reject } from 'lodash';
 import { GET_CONFIG_SUCCESS } from 'actions/config';
 import { LOGOUT } from 'actions/session';
 
