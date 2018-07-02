@@ -28,6 +28,6 @@ function promiseMiddleware() {
 }
 
 const createStoreWithMiddleware = applyMiddleware( thunk, promiseMiddleware )( createStore );
-const store = createStoreWithMiddleware( reducers );
+const store = createStoreWithMiddleware( reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() );
 
 export default store;
