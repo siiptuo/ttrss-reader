@@ -1,4 +1,6 @@
 language: node_js
+node_js:
+  - node
 script: npm run build
 before_deploy:
   - mkdir -p ttrss-reader-${TRAVIS_TAG#v}
