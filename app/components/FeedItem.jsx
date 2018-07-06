@@ -20,11 +20,9 @@ class FeedItem extends React.Component {
 	}
 
 	handleClick() {
-		const { feed, current, dispatch } = this.props;
+		const { feed, dispatch } = this.props;
 
-		if ( feed.id !== current.id ) {
-			dispatch( selectFeed( feed.id ) );
-		}
+		dispatch( selectFeed( feed.id ) );
 
 		dispatch( hideSidebar() );
 	}
@@ -44,8 +42,7 @@ class FeedItem extends React.Component {
 
 	render() {
 		const { feed, current } = this.props;
-		const isSelected = feed.id === current.id;
-		const clsLink = isSelected ? styles.current : '';
+		const clsLink = current ? styles.current : '';
 
 		return (
 			<li>
@@ -65,6 +62,8 @@ class FeedItem extends React.Component {
 
 function mapStateToProps( state, ownProps ) {
 	return {
+		feed:        state.feeds.items[ ownProps.feed ],
+		current:     ownProps.feed === state.feeds.current,
 		iconBaseUrl: localStorage.getItem('ttrssBaseUrl') + '/' + state.config.icons_url + '/'
 	};
 }

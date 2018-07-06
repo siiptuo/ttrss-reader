@@ -1,6 +1,5 @@
 import { polyfill } from 'es6-promise';
 import axios from 'axios';
-import { find } from 'lodash';
 import { clearArticles } from 'actions/articles';
 
 
@@ -18,22 +17,34 @@ export function fetchFeeds( cat ) {
 		const { session, settings, categories } = getState();
 		let category;
 
-		if ( 'number' === typeof category ) {
-			category = find( categories.items, { id: cat });
+		if ( 'number' === typeof cat ) {
+			category = categories.items[ cat ];
 		} else {
 			category = cat;
 		}
 
+		const promise = axios.post( session.url, {
+			op:             'getFeeds',
+			sid:            session.sid,
+			cat_id:         category.id,
+			unread_only:    0 < settings.unreadOnly,
+			include_nested: true
+		});
+
 		dispatch({
-			type:    GET_FEEDS,
-			promise: axios.post( session.url, {
-				op:          'getFeeds',
-				sid:         session.sid,
-				cat_id:      category.id,
-				unread_only: 0 < settings.unreadOnly
-			}),
+			type: GET_FEEDS,
+			promise,
 			category
 		});
+
+		// Fetch subcategories in the background.
+		// promise.then( response => {
+		// 	response.data.content.forEach( item => {
+		// 		if ( item.is_cat ) {
+		// 			dispatch( fetchFeeds( item.id ) );
+		// 		}
+		// 	});
+		// });
 	};
 }
 

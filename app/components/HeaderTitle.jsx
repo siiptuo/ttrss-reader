@@ -8,7 +8,7 @@ import headerStyles from 'css/containers/header';
 
 class HeaderTitle extends Component {
 	static propTypes = {
-		feed:     PropTypes.object.isRequired,
+		feed:     PropTypes.object,
 		dispatch: PropTypes.func.isRequired
 	}
 
@@ -39,7 +39,7 @@ class HeaderTitle extends Component {
 	}
 
 	render() {
-		const title = this.props.feed.id ? this.renderFeedTitle() : this.renderAppTitle();
+		const title = this.props.feed ? this.renderFeedTitle() : this.renderAppTitle();
 
 		return (
 			<h2 className={ elementStyles.textTruncate }>{ title }</h2>
@@ -49,7 +49,7 @@ class HeaderTitle extends Component {
 
 function mapStateToProps( state ) {
 	return {
-		feed: state.feeds.current
+		feed: state.feeds.current && state.feeds.items[ state.feeds.current ]
 	};
 }
 

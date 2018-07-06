@@ -215,8 +215,8 @@ class Article extends React.Component {
 
 function mapStateToProps( state, ownProps ) {
 	return {
-		feed: state.feeds.current,
-		articleFeed: state.feeds.items.find(feed => feed.id === ownProps.article.feed_id),
+		feed: state.feeds.items[ state.feeds.current ],
+		articleFeed: state.feeds.items[ ownProps.article.feed_id ],
 		iconBaseUrl: localStorage.getItem('ttrssBaseUrl') + '/' + state.config.icons_url + '/'
 	};
 }

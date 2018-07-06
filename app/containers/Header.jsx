@@ -48,7 +48,7 @@ class Header extends React.Component {
 
 function mapStateToProps( state ) {
 	return {
-		feedId:    state.feeds.current.id,
+		feedId:    state.feeds.current,
 		articleId: state.articles.currentId,
 	};
 }

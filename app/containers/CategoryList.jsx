@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { categoriesShape } from 'reducers/categories';
-import { getCategories } from 'actions/categories';
-import { getConfig } from 'actions/config';
 import CategoryItem from 'components/CategoryItem';
 import Icon from 'components/Icon';
 import styles from 'css/containers/category-list';
@@ -15,8 +13,8 @@ class CategoryList extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.dispatch( getCategories() );
-		this.props.dispatch( getConfig() );
+		// this.props.dispatch( getCategories() );
+		// this.props.dispatch( getConfig() );
 	}
 
 	renderSpinner() {
@@ -35,25 +33,26 @@ class CategoryList extends React.Component {
 
 	renderList() {
 		return (
-			this.props.categories.items.map( category =>
-				<CategoryItem key={ category.id } category={ category } />
+			this.props.categories.map( category =>
+				<CategoryItem key={ category } category={ category } />
 			)
 		);
 	}
 
 	render() {
-		const { isFetching, items } = this.props.categories;
+		// const { isFetching, items } = this.props.categories;
 		let listItems;
 
-		if ( items.length ) {
-			listItems = this.renderList();
-		} else {
-			if ( isFetching ) {
-				listItems = this.renderSpinner();
-			} else {
-				listItems = this.renderNoCategories();
-			}
-		}
+		listItems = this.renderList();
+		// if ( items.length ) {
+		// 	listItems = this.renderList();
+		// } else {
+		// 	if ( isFetching ) {
+		// 		listItems = this.renderSpinner();
+		// 	} else {
+		// 		listItems = this.renderNoCategories();
+		// 	}
+		// }
 
 		return (
 			<ul className={ styles.categoryList }>
@@ -63,10 +62,4 @@ class CategoryList extends React.Component {
 	}
 }
 
-function mapStateToProps( state ) {
-	return {
-		categories: state.categories
-	};
-}
-
-export default connect( mapStateToProps )( CategoryList );
+export default CategoryList;

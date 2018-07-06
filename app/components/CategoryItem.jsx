@@ -1,13 +1,19 @@
 import React, { PropTypes, Component } from 'react';
-import FeedList from 'containers/FeedList';
+import { connect } from 'react-redux';
+import FeedItem from 'components/FeedItem';
+import CategoryList from 'containers/CategoryList';
 import Icon from 'components/Icon';
 import { getCount } from 'helpers';
 import styles from 'css/containers/category-list';
+import { fetchFeeds } from 'actions/feeds';
 
 
 class CategoryItem extends Component {
 	static propTypes = {
-		category: PropTypes.object.isRequired
+		category:   PropTypes.object.isRequired,
+		categories: PropTypes.arrayOf( PropTypes.object ).isRequired,
+		feeds:      PropTypes.arrayOf( PropTypes.object ).isRequired,
+		dispatch:   PropTypes.func.isRequired
 	}
 
 	constructor( props ) {
@@ -18,6 +24,7 @@ class CategoryItem extends Component {
 
 	handleClick() {
 		this.setState({ isOpen: ! this.state.isOpen });
+		this.props.dispatch( fetchFeeds( this.props.category ) );
 	}
 
 	renderCount() {
@@ -58,10 +65,23 @@ class CategoryItem extends Component {
 					<span className={ styles.name }>{ category.title }</span>
 					{ this.renderCount() }
 				</a>
-				<FeedList category={ category } isOpen={ isOpen } />
+				{ isOpen && (
+					<ul>
+						{ category.categories.map( c => c && <ConnectedCategoryItem key={ `f${c}` } category={ c } /> ) }
+						{ category.feeds.map( f => f && <FeedItem key={ `f${f}` } feed={ f } /> ) }
+					</ul>
+				) }
 			</li>
 		);
 	}
 }
 
-export default ( CategoryItem );
+function mapStateToProps( state, ownProps ) {
+	return {
+		category: state.categories.items[ ownProps.category ]
+	};
+}
+
+const ConnectedCategoryItem = connect( mapStateToProps )( CategoryItem );
+
+export default ConnectedCategoryItem;

@@ -1,6 +1,8 @@
 import { polyfill } from 'es6-promise';
 import axios from 'axios';
 
+// import { fetchFeeds } from './feeds';
+
 
 polyfill();
 
@@ -18,14 +20,24 @@ export function getCategories() {
 	return ( dispatch, getState ) => {
 		const { session, settings } = getState();
 
-		dispatch({
-			type:    GET_CATEGORIES,
-			promise: axios.post( session.url, {
-				op:          'getCategories',
-				sid:         session.sid,
-				unread_only: 0 < settings.unreadOnly
-			})
+		const promise = axios.post( session.url, {
+			op:            'getCategories',
+			sid:           session.sid,
+			unread_only:   0 < settings.unreadOnly,
+			enable_nested: true
 		});
+
+		dispatch({
+			type: GET_CATEGORIES,
+			promise,
+		});
+
+		// Fetch subcategories in the background.
+		// promise.then( response => {
+		// 	response.data.content.forEach( item => {
+		// 		dispatch( fetchFeeds( item.id ) );
+		// 	});
+		// });
 	};
 }
 

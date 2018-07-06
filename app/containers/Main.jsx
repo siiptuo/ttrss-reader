@@ -45,9 +45,9 @@ class Main extends Component {
 	}
 
 	maybeShowSidebar( props ) {
-		const { feeds, articles, dispatch } = props;
+		const { currentFeed, articles, dispatch } = props;
 
-		if ( ! articles.currentId && ! feeds.current.id ) {
+		if ( ! articles.currentId && ! currentFeed ) {
 			dispatch( showSidebar() );
 		}
 	}
@@ -64,9 +64,9 @@ class Main extends Component {
 	}
 
 	handleClickMain() {
-		const { feeds, articles, dispatch } = this.props;
+		const { currentFeed, articles, dispatch } = this.props;
 
-		if ( feeds.current.id || articles.currentId ) {
+		if ( currentFeed || articles.currentId ) {
 			dispatch( hideSidebar() );
 		}
 	}
@@ -102,13 +102,13 @@ class Main extends Component {
 	}
 
 	render() {
-		const { feeds, articles } = this.props;
+		const { currentFeed, articles } = this.props;
 		let content;
 
 		if ( articles.currentId ) {
 			content = this.renderSingleArticle();
-		} else if ( feeds.current.id ) {
-			content = ( <ArticleList feed={ feeds.current } mainContent={ this.refs.mainContent } /> );
+		} else if ( currentFeed ) {
+			content = ( <ArticleList feed={ currentFeed } mainContent={ this.refs.mainContent } /> );
 		} else {
 			content = ( <MainIcon /> );
 		}
@@ -123,7 +123,7 @@ class Main extends Component {
 
 function mapStateToProps( state ) {
 	return {
-		feeds:        state.feeds,
+		currentFeed:  state.feeds.current && state.feeds.items[state.feeds.current],
 		articles:     state.articles,
 		noPagination: state.settings.noPagination
 	};

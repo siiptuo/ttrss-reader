@@ -1,5 +1,5 @@
 import { PropTypes } from 'react';
-import { filter, findIndex, sortBy } from 'lodash';
+import { filter, sortBy, keyBy } from 'lodash';
 import { LOGOUT } from 'actions/session';
 import {
 	GET_CATEGORIES_REQUEST,
@@ -7,47 +7,57 @@ import {
 	GET_ALL_CATEGORIES_REQUEST,
 	GET_ALL_CATEGORIES_SUCCESS
 } from 'actions/categories';
+import { GET_FEEDS_SUCCESS } from 'actions/feeds';
 
 
 const initialState = {
 	isFetching: true,
-	items:      []
+	items:      [],
+	root:       []
 };
 
 export const categoriesShape = {
 	isFetching: PropTypes.bool,
-	items:      PropTypes.array
+	items:      PropTypes.array,
+	root:       PropTypes.array
 };
 
-function normalizeCategory( category ) {
-	return Object.assign({}, category, {
-		id:     parseInt( category.id, 10 ),
-		unread: parseInt( category.unread, 10 )
-	});
-}
-
 export function categories( state = initialState, action ) {
-	let feedCategories;
-	let specialIdx;
-
 	switch ( action.type ) {
 		case GET_CATEGORIES_REQUEST:
 			return Object.assign({}, state, {
 				isFetching: true
 			});
 
-		case GET_CATEGORIES_SUCCESS:
-			feedCategories = action.req.data.content.map( normalizeCategory );
-			specialIdx     = findIndex( feedCategories, { id: -1 });
+		case GET_CATEGORIES_SUCCESS: {
+			const items = action.req.data.content
+				.map( c => Object.assign({}, c, { categories: [], feeds: [] }) )
+				.sort( ( a, b ) => a.order_id - b.order_id );
+			return Object.assign({}, state, {
+				isFetching: false,
+				items:      Object.assign({}, state.items, keyBy( items, 'id' ) ),
+				root:       items.map( c => c.id )
+			});
+		}
 
-			if ( 0 < specialIdx ) {
-				feedCategories.splice( 0, 0, feedCategories.splice( specialIdx, 1 )[ 0 ] );
-			}
+		case GET_FEEDS_SUCCESS: {
+			const cats = action.req.data.content
+				.filter( item => item.is_cat )
+				.map( c => Object.assign({}, c, { categories: [], feeds: [] }) )
+				.sort( ( a, b ) => a.order_id - b.order_id );
+			const feeds = action.req.data.content
+				.filter( item => !item.is_cat )
+				.sort( ( a, b ) => a.order_id - b.order_id );
 
 			return Object.assign({}, state, {
-				items:      feedCategories,
-				isFetching: false
+				items: Object.assign({}, state.items, keyBy( cats, 'id' ), {
+					[ action.category.id ]: Object.assign({}, state.items[ action.category.id ], {
+						feeds:      feeds.map( f => f.id ),
+						categories: cats.map( c => c.id ),
+					})
+				})
 			});
+		}
 
 		case LOGOUT:
 			return Object.assign({}, initialState );
@@ -67,7 +77,7 @@ export function allCategories( state = initialState, action ) {
 			});
 
 		case GET_ALL_CATEGORIES_SUCCESS:
-			feedCategories = action.req.data.content.map( normalizeCategory );
+			feedCategories = action.req.data.content;
 			feedCategories = filter( feedCategories, ( item ) => -1 < item.id );
 			feedCategories = sortBy( feedCategories, 'title' );
 
