@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getAllCategories } from 'actions/categories';
 import { subscribeToFeed, closeSubscriptionForm } from 'actions/subscription';
 import Icon from 'components/Icon';
 import IconLink from 'components/IconLink';
@@ -26,10 +25,6 @@ class SubscribeForm extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind( this );
 		this.handleChange = this.handleChange.bind( this );
 		this.handleClickClose = this.handleClickClose.bind( this );
-	}
-
-	componentDidMount() {
-		this.props.dispatch( getAllCategories() );
 	}
 
 	componentWillReceiveProps( nextProps ) {
@@ -200,10 +195,29 @@ class SubscribeForm extends React.Component {
 	}
 }
 
+function getAllCategories( state, categories, level = 0 ) {
+	const items = [];
+	categories.forEach( id => {
+		const category = state.categories.items[ id ];
+		items.push(
+			{
+				id:    category.id,
+				title: '\u00a0'.repeat( 4 * level ) + category.title
+			},
+			...getAllCategories( state, category.categories, level + 1 )
+		);
+	});
+	return items;
+}
+
 function mapStateToProps( state ) {
 	return {
-		allCategories: state.allCategories,
-		subscription:  state.subscription
+		// TODO: ensure that all categories are loaded
+		allCategories: {
+			isFetching: false,
+			items:      getAllCategories( state, state.categories.root ),
+		},
+		subscription: state.subscription
 	};
 }
 

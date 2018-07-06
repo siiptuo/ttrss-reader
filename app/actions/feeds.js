@@ -38,13 +38,13 @@ export function fetchFeeds( cat ) {
 		});
 
 		// Fetch subcategories in the background.
-		// promise.then( response => {
-		// 	response.data.content.forEach( item => {
-		// 		if ( item.is_cat ) {
-		// 			dispatch( fetchFeeds( item.id ) );
-		// 		}
-		// 	});
-		// });
+		promise.then( response => {
+			response.data.content.forEach( item => {
+				if ( item.is_cat ) {
+					dispatch( fetchFeeds( item.id ) );
+				}
+			});
+		});
 	};
 }
 

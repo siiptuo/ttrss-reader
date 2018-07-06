@@ -1,7 +1,7 @@
 import { polyfill } from 'es6-promise';
 import axios from 'axios';
 
-// import { fetchFeeds } from './feeds';
+import { fetchFeeds } from './feeds';
 
 
 polyfill();
@@ -33,25 +33,10 @@ export function getCategories() {
 		});
 
 		// Fetch subcategories in the background.
-		// promise.then( response => {
-		// 	response.data.content.forEach( item => {
-		// 		dispatch( fetchFeeds( item.id ) );
-		// 	});
-		// });
-	};
-}
-
-export function getAllCategories() {
-	return ( dispatch, getState ) => {
-		const { url, sid } = getState().session;
-
-		dispatch({
-			type:    GET_ALL_CATEGORIES,
-			promise: axios.post( url, {
-				op:            'getCategories',
-				include_empty: true,
-				sid
-			})
+		promise.then( response => {
+			response.data.content.forEach( item => {
+				dispatch( fetchFeeds( item.id ) );
+			});
 		});
 	};
 }
