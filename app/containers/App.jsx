@@ -15,7 +15,7 @@ import Alert from 'components/Alert';
 import MainSpinner from 'components/MainSpinner';
 import Helmet from 'react-helmet';
 
-import 'css/common/normalize';
+import 'normalize.css';
 import 'css/common/base';
 import 'css/common/typography';
 import styles from 'css/common/layout';
