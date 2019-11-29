@@ -67,8 +67,8 @@ class CategoryItem extends Component {
 				</a>
 				{ isOpen && (
 					<ul>
-						{ category.categories.map( c => c && <ConnectedCategoryItem key={ `f${c}` } category={ c } /> ) }
-						{ category.feeds.map( f => f && <FeedItem key={ `f${f}` } feed={ f } /> ) }
+						{ category.categories.map( c => <ConnectedCategoryItem key={ `f${c}` } category={ c } /> ) }
+						{ category.feeds.map( f => <FeedItem key={ `f${f}` } feed={ f } /> ) }
 					</ul>
 				) }
 			</li>
