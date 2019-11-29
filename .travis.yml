@@ -9,8 +9,7 @@ before_deploy:
   - rm -fr ttrss-reader-${TRAVIS_TAG#v}
 deploy:
   provider: releases
-  api_key:
-    secure: ZW/6wgG2hL0emyJD6Jm7zZ8hh1MEAXOe71ssrLWnXIpGj3JMtQ0IscPJODjqy7Tffuh/1/0pCDpimzXTU7GUmSwJCO+T7wU7XlTtt41nQY1tib+1KF4CslZpwh7DROVJUoVMyMpVDCFGAx9jcRG0C3EqQMBCw0RVc+pdVmKewO2PFjxQZqK/NVIT2swNC1rVOzrXRKCJpYdZpEJSf6q/87YTN0PfKZnHftUCFolCVNiFi/GZwFzFigl6FhY12l2IKd5/31M8avGBfifUUTydZCOfKDxJ9j/0yGAspjDM/i3largkmUxwD2Lk3dNxyg/iqjGkTk5miucW3nyzwfDrkr5KSf9SUAYSsBrLZy76Atx8JZlADIDvWedUFRaX96s4Lh7aspoe8RJgZUyaV4cVmqg+auQY9N/2ADBL+2Sz2NPvolLlTwlVAuM/6oOOsET9Pb0UGLG5GsEySmyTWWRzYQ/+rjsAh6Ls4hJkJ7jjWxzDRWXtGqpr+nQbtr/FtYCXLPHRz2ZUsOVPY50Rr/MQMIZ24fD8qLSM0yb/3C+SmoNh3UT6+df1xh3hsC45RSfx+j5RrgHWmmLiX4LqNbaKtzjIDJlOu82qVHPxTRLo/VX9Dn4vr1V1sG/LdW1ld5NUl+hS4Ri5kdDamaryWpkjy3lrHXNSQ9TVsbrcgWulRuU=
+  api_key: $GITHUB_TOKEN
   file_glob: true
   file: '*.tar.gz'
   skip_cleanup: true
